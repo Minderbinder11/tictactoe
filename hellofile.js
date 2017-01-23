@@ -4,7 +4,8 @@ const readline = require('readline');
 
 const rl = readline.createInterface({
   input: process.stdin,
-  output: process.stdout
+  output: process.stdout,
+  prompt: 'TicTacToe >'
 });
 
 // rl.question('What do you think of Node.js? ', (answer) => {
@@ -17,7 +18,9 @@ const rl = readline.createInterface({
 var player1 = '';
 var player2 = '';
 
+
 console.log('What is the name of Player 1: ');
+rl.prompt();
 rl.on('line', (input) => {
   console.log(`Received: ${input}`);
   player1 = input;
@@ -49,10 +52,12 @@ function printBoard(board) {
   printBoard(board);
 
 
-var playing = true;
-var playerAPlaying = true;
-var playerBPlaying = true;
+var playing = false;
+var playerAPlaying = false;
+var playerBPlaying = false;
 
+
+if ()
 while (playing) {
 
 
@@ -68,6 +73,11 @@ while (playing) {
       if (typeof board[row][column] === 'number') {
         board[row][column] = 'X';
         // check for tic tac tow
+        if (checkForTicTacToe('X')){
+          console.log('Congrats ' + player1 + ',  you won!');
+          rl.close();
+          playing = false;
+        }
         playerAPlaying = false;
       } else {
         console.log('That is not a valid move, try again');
@@ -88,6 +98,12 @@ while (playing) {
       if (typeof board[row][column] === 'number') {
         board[row][column] = 'O';
         // check for tick tac toe
+        if ( checkForTicTacToe('O')) {
+          console.log('Congrats ' + player2 + ',  you won!');
+          rl.close();
+          playing = false;
+        }
+
         playerBPlaying = false;
       } else {
         console.log('That is not a valid move, try again');
@@ -100,13 +116,34 @@ while (playing) {
 
 function checkForTicTacToe (player) {
 
-  //check for horizontals
+  // check for horizontals
 
   for ( var i = 0; i < 3; i ++ ) {
-    
+    if (board[i][0] === player && board[i][1] === player && board[i][2] === player) {
+      return true;
+    }
   }
 
 
+  // check for vericles
+
+  for ( var j = 0; j < 3; j ++ ) {
+    if (board[0][j] === player && board[1][j] === player && board[2][j] === player) {
+      return true;
+    }
+  }
+
+  // check for diagonals
+
+    if (board[0][0] === player && board[1][1] === player && board[2][2] === player) {
+      return true;
+    }
+
+    if (board[0][2] === player && board[1][1] === player && board[2][0] === player) {
+      return true;
+    }
+
+    return false;
 }
 
 
